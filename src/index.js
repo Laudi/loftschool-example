@@ -13,7 +13,7 @@ i – его номер.
 arr – массив, который перебирается.
  */
 function forEach(array, fn) {
-	for (var i = 0; i < array.lenght; i++) { // для каждого элемента массива вызывает функцию callback.
+	for (var i = 0; i < array.length; i++) { // для каждого элемента массива вызывает функцию callback.
 		fn (array[i], i, array);  //Этой функции он передаёт три параметра callback(item, i, arr):(у нас - array)
 	}
 }
@@ -57,7 +57,7 @@ arr – обрабатываемый массив. (array)
  */
 function reduce(array, fn, initial) {
   result = initial || array [0];  // создает новый массив
-  var i = initial ? 0 : 1;
+  let i = initial ? 0 : 1;
 	for (; i < array.length; i++) {
 	 result = fn (result, array[i], i, array);
 	}

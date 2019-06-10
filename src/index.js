@@ -106,41 +106,40 @@ function returnBadArguments(fn) {
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
 function calculator(number=0) {
-  if (number !== number) throw new Error("number is not a number");
+  if (typeof number !== "number") throw new Error("number is not a number");
   let myObject = {
-    name: 'ourObj',
-    sum: function () {  // метод sum
+      sum: function () {  // метод sum
       let result = number; //для накопления суммы
-      for (let i = 0; i < arguments; i ++) {
+      for (let i = 0; i < arguments.length; i++) {
         result += arguments[i];
       } 
     return result;
-    }
+    },
     dif: function () {
       let result = number; //для "накопления" разницы
-        for (let i = 0; i < arguments; i ++) {
+        for (let i = 0; i < arguments; i++) {
         result -= arguments[i];
       } 
     return result;
-    } 
+    },
     div: function() {
       let result = number; //для деления
-      for (let i = 0; i < arguments; i ++) {
-        if (arguments [i] == 0 ) throw new Error("division by 0")
+      for (let i = 0; i < arguments; i++) {
+        if (arguments[i] == 0 ) throw new Error("division by 0")
         result = result/ arguments[i];
       } 
     return result;
-    }
+    },
     mul: function() {
       let result = number; //для накопления произведения
-      for (let i = 0; i < arguments; i ++) {
+      for (let i = 0; i < arguments; i++) {
         result = result * arguments[i];
       } 
     return result;
     }
-
   }
-
+  return myObject;
+}
 /* При решении задач, пострайтесь использовать отладчик */
 
 export {

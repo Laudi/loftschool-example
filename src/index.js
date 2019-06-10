@@ -117,14 +117,14 @@ function calculator(number=0) {
     },
     dif: function () {
       let result = number; //для "накопления" разницы
-        for (let i = 0; i < arguments; i++) {
+        for (let i = 0; i < arguments.length; i++) {
         result -= arguments[i];
       } 
     return result;
     },
     div: function() {
       let result = number; //для деления
-      for (let i = 0; i < arguments; i++) {
+      for (let i = 0; i < arguments.length; i++) {
         if (arguments[i] == 0 ) throw new Error("division by 0")
         result = result/ arguments[i];
       } 
@@ -132,7 +132,7 @@ function calculator(number=0) {
     },
     mul: function() {
       let result = number; //для накопления произведения
-      for (let i = 0; i < arguments; i++) {
+      for (let i = 0; i < arguments.length; i++) {
         result = result * arguments[i];
       } 
     return result;

@@ -34,6 +34,7 @@
 const homeworkContainer = document.querySelector('#homework-container');
 
 // текстовое поле для фильтрации cookie
+
 const filterNameInput = homeworkContainer.querySelector('#filter-name-input');
 // текстовое поле с именем cookie
 const addNameInput = homeworkContainer.querySelector('#add-name-input');
@@ -46,8 +47,37 @@ const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
     // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+ // input filterNameInput = 
 });
 
 addButton.addEventListener('click', () => {
     // здесь можно обработать нажатие на кнопку "добавить cookie"
+  
+    document.cookie = `${addNameInput.value}=${addValueInput.value}`;
+    renderCookie()
 });
+
+function renderCookie() {
+  console.log(document.cookie);
+  if (document.cookie.length>0) {
+    const objCookie = document.cookie.split('; ').reduce((result, current) => {
+      
+      const [name, value] = current.split('=');
+      if (filterNameInput.value) {
+
+          var answer = isMatching(name, filterNameInput.value);
+          var answerVall = isMatching(value, filterNameInput.value);
+          if (answer || answerVall) {
+              result[name] = value;
+          }
+      } else {
+          result[name] = value;
+      }
+
+      return result;
+  }, {});
+  }
+}
+
+
+// tr td, button 

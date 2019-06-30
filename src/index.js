@@ -44,10 +44,11 @@ function loadAndSortTowns() {
         reject();
       } else {
         const townsUnsortObj = JSON.parse(xhr.responseText); // получили массив неотсортированных объектов
-        for (const i of townsUnsortObj) { //получить массив несортированных названий городов 
-          townsUnsort.push(i.name);
-        }
-        townsSort = townsUnsort.sort();
+        
+        townsSort = townsUnsortObj.sort(function (a, b) {
+    
+            return (a.name > b.name) ? 1 : -1;
+        });
         resolve(townsSort);
       }
     });

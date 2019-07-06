@@ -47,7 +47,12 @@ const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 filterNameInput.addEventListener('keyup', function() {
     // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
- // input filterNameInput = 
+    if (filterNameInput.value === '') {
+      filterOn = false;
+  } else {
+      filterOn = true;
+  }
+  cookiesAdd(getCookies());
 });
 
 addButton.addEventListener('click', () => {
@@ -79,5 +84,68 @@ function renderCookie() {
   }
 }
 
+function isMatch (str, filterStr) {
+  if (filterStr === '') {
 
-// tr td, button 
+      return false;
+  }
+
+  let re = new RegExp(filterStr, 'i');
+
+  return (str.search(re) !== -1) ? true : false;
+}
+
+function cookiesFiltr(cookiesArray, str) {
+  return cookiesArray.filter(function(item) {
+      return isMatch(item.name, str) || isMatch(item.value, str); 
+  });
+}
+
+function getCookies () {
+  let cookiesStr;
+  let cookies = [];
+
+  cookiesStr = (document.cookie).split('; ');
+  cookiesStr.forEach(cookie => {    
+      const [name, value] = cookie.split('=');
+
+      if (name && value) {
+          cookies.push( { name: name, value: value } );
+      }
+  });
+
+  return cookies;
+}
+
+function deleteCookie (name, path) {
+  let date = new Date(0);
+
+  date = date.toUTCString();
+  document.cookie = `${name}=; path=${path}; expires=${date}`; 
+}
+
+function cookiesAdd (array) {
+  let cookiesArray = array;
+
+  listTable.innerHTML = '';
+  if (filterOn) {
+      cookiesArray = cookiesFiltr(array, filterNameInput.value);
+  }
+  cookiesArray.forEach(function(item) {
+      var tr = document.createElement('tr');
+      var tdName = document.createElement('td');
+      var tdValue = document.createElement('td');
+      var tdAction = document.createElement('td');
+      var btn = document.createElement('button');
+  
+      tdName.innerText = item.name;
+      tdValue.innerText = item.value;
+      tdAction.append(btn);
+      btn.innerText = 'удалить'; 
+      btn.setAttribute('data-cookie-name', item.name)
+      tr.append(tdName, tdValue, tdAction);
+      listTable.appendChild(tr);
+  }) 
+}
+
+cookiesAdd(getCookies());

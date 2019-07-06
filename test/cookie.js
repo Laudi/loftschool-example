@@ -143,7 +143,7 @@ describe('ДЗ 7.2 - Cookie editor', () => {
             deleteButton.click();
             cookies = getCookies();
             assert.equal(Object.keys(cookies).length, 0, 'cookie не удалена из браузера');
-            assert.equal(listTable.children.length, 0, 'cookie не удалена из таблицы');
+            assert.equal(listTable.children.length, 0, 'cookie не удалена из таблицы'); // ошибка 
         });
 
         describe('Фильтрация', () => {

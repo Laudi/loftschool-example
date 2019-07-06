@@ -44,6 +44,7 @@ const addValueInput = homeworkContainer.querySelector('#add-value-input');
 const addButton = homeworkContainer.querySelector('#add-button');
 // таблица со списком cookie
 const listTable = homeworkContainer.querySelector('#list-table tbody');
+var filterOn = true;
 
 filterNameInput.addEventListener('keyup', function() {
     // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
@@ -59,8 +60,17 @@ addButton.addEventListener('click', () => {
     // здесь можно обработать нажатие на кнопку "добавить cookie"
   
     document.cookie = `${addNameInput.value}=${addValueInput.value}`;
-    renderCookie()
+    renderCookie(getCookies());
 });
+
+listTable.addEventListener('click', e => {
+  if (e.target.nodeName == "BUTTON") {
+    let delName = e.target.parentNode.parentNode.children[0].innerHTML;
+    let delValue = e.target.parentNode.parentNode.children[1].innerHTML;  
+    deleteCookie(delName, delValue);  
+  } 
+  
+})
 
 function renderCookie() {
   console.log(document.cookie);
@@ -70,17 +80,21 @@ function renderCookie() {
       const [name, value] = current.split('=');
       if (filterNameInput.value) {
 
-          var answer = isMatching(name, filterNameInput.value);
-          var answerVall = isMatching(value, filterNameInput.value);
+          var answer = isMatch(name, filterNameInput.value);
+          var answerVall = isMatch(value, filterNameInput.value);
           if (answer || answerVall) {
-              result[name] = value;
+            result.push({name, value})
           }
       } else {
-          result[name] = value;
+        result.push({name, value})  
+        //result[name] = value;
+         
       }
 
       return result;
-  }, {});
+  }, []);
+  cookiesAdd(objCookie);
+
   }
 }
 
@@ -119,18 +133,20 @@ function getCookies () {
 
 function deleteCookie (name, path) {
   let date = new Date(0);
-
+console.log(name);
   date = date.toUTCString();
-  document.cookie = `${name}=; path=${path}; expires=${date}`; 
+  document.cookie = `${name}=; path=/; expires=${date}`; 
+  renderCookie(getCookies());
 }
 
 function cookiesAdd (array) {
+  console.log(array);
   let cookiesArray = array;
 
-  listTable.innerHTML = '';
-  if (filterOn) {
+  listTable.innerHTML = ''; 
+  if (filterNameInput.value) {
       cookiesArray = cookiesFiltr(array, filterNameInput.value);
-  }
+  } 
   cookiesArray.forEach(function(item) {
       var tr = document.createElement('tr');
       var tdName = document.createElement('td');
